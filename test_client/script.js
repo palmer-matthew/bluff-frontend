@@ -1,4 +1,6 @@
-import { io } from "socket.io-client";
+import { Manager } from "socket.io-client";
 
-SERVER=""
-const socket = io(SERVER);
+const SERVER="http://localhost:5050"
+const manager = new Manager(SERVER);
+
+const socket = manager.socket("/");
