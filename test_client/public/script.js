@@ -37,14 +37,13 @@ button1.addEventListener('click', (event) => {
     event.preventDefault();
 
     const input = document.querySelector('#room-id');
-    var id = input.nodeValue;
+    var id = input.value;
 
-    console.log(id);
     localStorage.setItem('roomID', id);
     
     sendJoinRoomEvent(id, USERNAME);
 
-    input.nodeValue = '';
+    input.value = '';
 });
 
 button2.addEventListener('click', (event) => {
@@ -60,13 +59,16 @@ button2.addEventListener('click', (event) => {
 button3.addEventListener('click', (event) => {
     event.preventDefault();
 
-    var searchParams = new URLSearchParams();
-    searchParams.append('name', USERNAME);
-    searchParams.append('player_count', 8);
-
-    fetch(SERVER, {
-        method: 'POST' ,
-        body: searchParams,
+    fetch(SERVER + '/room/create', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            name: USERNAME,
+            player_count: 8
+        }),
     }).then(response => {
         return response.json();
     }).then(data => {
@@ -83,6 +85,11 @@ button3.addEventListener('click', (event) => {
         console.log(error);
     })
 });
+
+const logPlayers = (payload) => {
+    console.log(payload);
+};
+socket.on("room:player-join", logPlayers);
 
 // // receiving an event
 // socket.on("foo", (value) => {
