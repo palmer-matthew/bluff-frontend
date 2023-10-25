@@ -78,12 +78,14 @@ button3.addEventListener('click', (event) => {
             localStorage.removeItem('roomID');
         }
         localStorage.setItem('roomID', data.roomID); 
-
+        
         sendJoinRoomEvent(data.roomID, USERNAME);
         
     }).catch (error => {
         console.log(error);
     })
+
+    
 });
 
 const logPlayers = (payload) => {
